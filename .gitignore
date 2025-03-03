@@ -1,0 +1,52 @@
+# Node.js (frontend)
+node_modules/
+.next/
+out/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.DS_Store
+
+# Python (backend)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.env
+.envrc
+Pipfile
+Pipfile.lock
+
+# FastAPI and Uvicorn logs
+*.log
+*.db
+instance/
+
+# Docker
+docker/.env
+docker-compose.override.yml
+.dockerignore
+
+# Git and OS-related
+.git/
+*.swp
+*.swo
+.DS_Store
+
+# CI/CD Pipelines (Optional)
+.github/workflows/*.yml
+.gitlab-ci.yml
+.circleci/
+
+# IDE/Editor settings
+.vscode/
+.idea/
+*.iml
+
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars
+terraform.tfvars.json
