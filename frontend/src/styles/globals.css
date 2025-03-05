@@ -1,8 +1,27 @@
-@import "tailwindcss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@theme {
-  --font-sans: var(--font-geist-sans);
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 247, 249, 252;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-gray-800 font-semibold py-2 px-4 rounded-md border border-gray-300 hover:bg-gray-50 transition-colors;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-md p-6;
+  }
 }

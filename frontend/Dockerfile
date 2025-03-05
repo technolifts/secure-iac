@@ -1,34 +1,26 @@
-FROM node:18-alpine AS builder
+FROM node:18-alpine AS base
+
+# Create app directory
 WORKDIR /app
 
-COPY package*.json ./
+# Install dependencies
+FROM base AS deps
+COPY package.json package-lock.json* ./
 RUN npm ci
+
+# Set up development environment with hot reload
+FROM base AS development
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Ensure next.config.js has output: 'standalone'
-RUN echo "Building with Next.js"
-RUN npm run build
+# Next.js specific env variables
+ENV PORT 3000
+ENV NODE_ENV development
+ENV NEXT_TELEMETRY_DISABLED 1
 
-FROM node:18-alpine AS runner
-WORKDIR /app
-
-ENV NODE_ENV production
-
-# Copy necessary files
-COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/package.json ./
-
-# Copy output files
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/public ./public
-
-# Set proper permissions
-RUN chmod +x ./server.js || echo "Warning: server.js not executable or not found"
-
+# Expose port
 EXPOSE 3000
 
-# Environment variables must be present at build time
-ENV PORT 3000
-
-CMD ["node", "server.js"]
+# Start Next.js in development mode for hot reloading
+CMD ["npm", "run", "dev"]
