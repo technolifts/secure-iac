@@ -16,15 +16,15 @@ export default function RootLayout({
 }) {
   return (
     <html>
-    <div className="flex flex-col min-h-screen">
-      <Header />
       <body>
-        <main className="flex-grow container mx-auto px-4 py-8">
-          {children}
-        </main>
+        <div className="flex flex-col min-h-screen">
+          <Header />
+          <main className="flex-grow container mx-auto px-4 py-8">
+            {children}
+          </main>
+          <Footer />
+        </div>
       </body>
-      <Footer />
-    </div>
     </html>
   );
 };
