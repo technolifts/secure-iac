@@ -1,27 +1,36 @@
+"""
+Configuration settings for the application.
+
+This module contains configuration settings for the backend application,
+including environment variables, API keys, and CORS settings.
+"""
+
 import os
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 from dotenv import load_dotenv
 
+# Load environment variables from .env file
 load_dotenv()
 
 class Settings(BaseSettings):
+    """Application settings."""
+    
+    # API settings
     API_V1_STR: str = "/api/v1"
     PROJECT_NAME: str = "Secure IaC"
     
-    # Security
-    SECRET_KEY: str = os.getenv("SECRET_KEY", "development_key")
-    
-    # AI Service Config
-    AI_SERVICE_API_KEY: str = os.getenv("AI_SERVICE_API_KEY", "")
-    AI_SERVICE_URL: str = os.getenv("AI_SERVICE_URL", "")
-    
-    # CORS
-    CORS_ORIGINS: list = [
-        "http://localhost:3000",
-        "http://localhost:8000",
+    # CORS settings
+    CORS_ORIGINS: list[str] = [
+        "http://localhost:3000",  # Frontend development server
+        "http://frontend:3000",   # Frontend Docker container
     ]
     
+    # Anthropic API settings
+    ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "")
+    
     class Config:
+        env_file = ".env"
         case_sensitive = True
 
+# Create settings instance
 settings = Settings()

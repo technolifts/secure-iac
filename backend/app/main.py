@@ -1,25 +1,37 @@
+"""
+Main application entry point.
+
+This module initializes the FastAPI application, sets up CORS,
+and includes API routes.
+"""
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.routes import health, templates
+
+from app.config import settings
+from app.api.routes import terraform
 
 app = FastAPI(
-    title="Secure IaC API",
-    description="API for generating secure infrastructure as code templates",
-    version="0.1.0"
+    title=settings.PROJECT_NAME,
+    openapi_url=f"{settings.API_V1_STR}/openapi.json",
 )
 
-# Configure CORS
+# Set up CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Frontend URL
+    allow_origins=settings.CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Include routers
-app.include_router(health.router)
-app.include_router(templates.router, prefix="/api/v1")
+# Include API routes
+app.include_router(terraform.router, prefix=settings.API_V1_STR)
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint."""
+    return {"status": "ok"}
 
 if __name__ == "__main__":
     import uvicorn
