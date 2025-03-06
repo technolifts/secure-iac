@@ -9,8 +9,8 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { apiClient } from '@/lib/api'
-import { S3FormData } from '@/lib/types'
+import { apiClient } from '@/libs/api'
+import { S3FormData } from '@/libs/types'
 import CodeViewer from '@/components/results/CodeViewer'
 
 export default function S3ResultPage() {
